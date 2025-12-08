@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    stream:
+      # O PULO DO GATO: Diz explicitamente para usar o Kafka
+      default-binder: kafka
+      
+      bindings:
+        processAnalysis-in-0:
+          destination: ms3-requests-topic
+          group: ms3-group
+          binder: kafka
+        processAnalysis-out-0:
+          destination: ms3-replies-topic
+          binder: kafka

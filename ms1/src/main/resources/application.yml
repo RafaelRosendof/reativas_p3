@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: onStockResponse;onAiResponse #
+      bindings:
+        # Saída de comandos (usado pelo StreamBridge)
+        stock-command-out:
+          destination: ms2-requests
+        ai-command-out:
+          destination: ms3-requests
+        
+        # Entrada de respostas (Consumers)
+        onStockResponse-in-0:
+          destination: ms2-replies
+        onAiResponse-in-0:
+          destination: ms3-replies

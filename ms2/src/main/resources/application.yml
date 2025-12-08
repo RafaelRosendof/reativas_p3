@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: processStockData # O nome do @Bean Function
+      bindings:
+        processStockData-in-0:
+          destination: ms2-requests # Escuta onde o MS1 fala
+          group: ms2-group # Garante que só uma instância processe
+        processStockData-out-0:
+          destination: ms2-replies # Responde onde o MS1 escuta
