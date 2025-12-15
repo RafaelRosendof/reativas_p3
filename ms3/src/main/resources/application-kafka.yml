@@ -1,7 +1,6 @@
 spring:
   cloud:
     stream:
-      # O PULO DO GATO: Diz explicitamente para usar o Kafka
       default-binder: kafka
       
       bindings:

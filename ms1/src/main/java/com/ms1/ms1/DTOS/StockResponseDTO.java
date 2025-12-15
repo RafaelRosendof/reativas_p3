@@ -10,7 +10,13 @@ import lombok.NoArgsConstructor;
 public class StockResponseDTO{
     private String sagaId;
 
+    private String status;
+
     private String collectedData;
 
     private String errorMessage;
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 }

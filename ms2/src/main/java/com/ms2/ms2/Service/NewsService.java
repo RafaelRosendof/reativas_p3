@@ -17,14 +17,13 @@ public class NewsService {
 
     public NewsInterface newsInterface;
     public StockInterface stockInterface;
-    public RedisReactive redisService;
-    public NewsCollector newsCollector = new NewsCollector();
+    public NewsCollector newsCollector;
 
     @Autowired
-    public NewsService(NewsInterface newsInterface , StockInterface stockInterface, RedisReactive redisService) {
+    public NewsService(NewsInterface newsInterface , StockInterface stockInterface, NewsCollector newsCollector) {
         this.newsInterface = newsInterface;
         this.stockInterface = stockInterface;
-        this.redisService = redisService;
+        this.newsCollector = newsCollector;
     }
     
     public Mono<News> findById(int id) {
@@ -36,32 +35,32 @@ public class NewsService {
     }
 
 
-    public String createNews(String news){
-        return newsCollector.processNewsData(news);
+    public Mono<String> createNews(String news){
+        return newsCollector.getNewsSummary(news);
     }
 
     // correct this method and done 
     public Mono<String> getNewsTop1(){
 
-        String top1 = "AMZN"; // just to ignore test propourse
+        String top1 = "AMZN";
 
-        String news1 = createNews(top1);
+        Mono<String> news1 = createNews(top1);
 
         System.out.println("News 1: " + news1);
 
-        return Mono.just(news1);
+        return news1;
 
     }
 
     public Mono<String> getNewsTop2(){
 
-        String top2 = "APPL"; // just to ignore test propourse 
+        String top2 = "APPL";
 
-        String news2 = createNews(top2);
+        Mono<String> news2 = createNews(top2);
 
         System.out.println("News 2: " + news2);
 
-        return Mono.just(news2);
+        return news2;
 
     }
 

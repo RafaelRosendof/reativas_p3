@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class StockCommandDTO {
     private String sagaId;
     private String ticker;
+    private String additionalData;
 }

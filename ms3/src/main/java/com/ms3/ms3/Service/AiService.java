@@ -10,7 +10,7 @@ public class AiService {
 
     private final ChatService chatService;
 
-    @Value("${openai.api.key}")
+    @Value("${openai.api.key:NOT_DEFINED}")
     private String openAiApiKey;
 
     public AiService(ChatService chatService) {

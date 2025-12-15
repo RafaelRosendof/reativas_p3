@@ -1,11 +1,31 @@
 spring:
   cloud:
     stream:
+      #default-binder: kafka
+      default-binder: rabbit
       function:
-        definition: processStockData # O nome do @Bean Function
+        definition: processStockData
+      
+      kafka:
+        binder:
+          configuration:
+            spring.json.trusted.packages: "*"
+        
       bindings:
         processStockData-in-0:
-          destination: ms2-requests # Escuta onde o MS1 fala
-          group: ms2-group # Garante que só uma instância processe
+          destination: ms2-stock-requests
+          group: ms2-group
+          binder: rabbit
+          content-type: application/json
+
         processStockData-out-0:
-          destination: ms2-replies # Responde onde o MS1 escuta
+          destination: ms2-replies
+          binder: rabbit
+          content-type: application/json
+
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest

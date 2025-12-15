@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    stream:
+      default-binder: rabbit 
+      
+      bindings:
+        processAnalysis-in-0:
+          destination: ms3-requests
+          group: ms3-group
+          binder: rabbit 
+        processAnalysis-out-0:
+          destination: ms3-replies
+          binder: rabbit

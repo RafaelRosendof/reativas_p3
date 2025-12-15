@@ -1,0 +1,32 @@
+Análise para AAPL:
+Total de entradas de ações coletadas: 0
+Nenhuma notícia relevante encontrada.
+
+Análise para AMZN:
+Total de entradas de ações coletadas: 100
+--- Notícias Recentes para  ---
+
+Notícia 1:
+  Título: Is Costco Stock a Long-Term Buy?
+  Resumo: Costco Wholesale (NASDAQ: COST) has demonstrated consistent growth in same-store sales and net income, expanding its warehouse locations and maintaining strong customer loyalty through its membership model. Despite its strong performance and a 548% total return over the past decade, the stock's current valuation remains high, with a price-to-earnings ratio of 48.1. While it is considered a worthy long-term investment, investors might consider waiting for a better entry point or using dollar-cost averaging to build a position.
+  Sentimento: Somewhat-Bullish
+
+Notícia 2:
+  Título: Has Alibaba’s 2024 Share Price Surge Already Reflected its Rebound Story?
+  Resumo: Alibaba Group Holding's stock surged 83.3% in 2024 due to market-friendly policies, eased tech regulations, and optimism around Chinese consumer spending and AI investment. Despite this rebound, a Discounted Cash Flow analysis suggests an undervaluation of 41.8%, while its P/E ratio, though in line with the Multiline Retail industry, is discounted compared to global peers, hinting at lingering concerns from investors. The article explores bull and bear case narratives for Alibaba's future valuation, ranging from $107 to $198 per share, based on different assumptions about growth drivers and macro risks.
+  Sentimento: Bullish
+
+Notícia 3:
+  Título: Walmart Inc. Common Stock (WMT) Formally Relocates On NASDAQ
+  Resumo: Walmart Inc. (NASDAQ: WMT) has formally relocated its primary stock listing from the NYSE to Nasdaq, a move seen as significant due to potential Nasdaq 100 inclusion and confirmation of its status as a technologically advanced omnichannel retailer. This change highlights Walmart's transformation into a tech-enabled e-commerce giant, driven by advancements in AI and automation across its operations. Analysts maintain a Buy rating on WMT shares, which are up 25.76% YTD, emphasizing its tech-forward growth narrative.
+  Sentimento: Neutral
+
+Notícia 4:
+  Título: Lazard Asset Management LLC Has $127.28 Million Stock Position in Alibaba Group Holding Limited $BABA
+  Resumo: Lazard Asset Management LLC significantly cut its stake in Alibaba Group Holding Limited ($BABA) by 70.8% in Q2, retaining shares valued at $127.28 million. Despite this reduction, analyst sentiment for Alibaba remains positive, with a "Moderate Buy" consensus rating and an average target price of $194. The company has a current market capitalization of $371.18 billion and is trading at a PE ratio of 21.49.
+  Sentimento: Somewhat-Bullish
+
+Notícia 5:
+  Título: Microsoft Worm Attack Warning — Act Rapidly And Change Passwords Now
+  Resumo: Microsoft has issued an urgent warning about the "Shai-Hulud 2.0 Dune Worm" attacks, urging organizations to rapidly rotate and revoke exposed passwords due to significant cloud-native compromises. The worm compromises accounts, spreads through open-source packages, and exfiltrates credentials to attacker-controlled repositories. This aggressive supply chain attack, attributed to the S1ngularity threat group, has seen over 27,000 new GitHub repositories created to store stolen data and is being refined by attackers.
+  Sentimento: Neutral

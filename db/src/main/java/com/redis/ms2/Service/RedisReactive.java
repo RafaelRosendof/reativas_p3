@@ -1,4 +1,4 @@
-package com.ms2.ms2.Service;
+package com.redis.ms2.Service;
 
 
 import org.springframework.stereotype.Service;
@@ -30,11 +30,29 @@ public class RedisReactive{
     }
 
     public Mono<String> recordStockRequest(String stockName){ 
+        System.out.println("Recorded stock request for: " + stockName);
         return redisTemplate.opsForZSet().incrementScore(LEADERBOARD_KEY, stockName, 1)
             .map(newScore -> "Success") 
             .onErrorResume(e -> {
                 e.printStackTrace(); 
                 return Mono.just("Error");
+            });
+
+        //System.out.println("Recorded stock request for: " + stockName);
+    }
+
+    public Mono<String> processRedis(){
+        return getTop2Request()
+            .collectList()
+            .flatMap(list -> {
+                try {
+                    System.out.println("Top 2 requests: " + list);
+                    java.nio.file.Files.write(java.nio.file.Paths.get("/home/rafael/reativas_p3/top_requests.txt"), list);
+                    clearRedis().subscribe();
+                    return Mono.just("Success");
+                } catch (Exception e) {
+                    return Mono.just("Error");
+                }
             });
     }
 

@@ -14,4 +14,9 @@ public class AnalysisResponseDTO {
 
     private String finalAnalysis;
 
+    public String getErrorMessage() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getErrorMessage'");
+    }
+
 }

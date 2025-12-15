@@ -2,8 +2,8 @@ spring:
   application:
     name: ms3-service
   profiles:
-    active: rabbit # Mude aqui para 'kafka' quando quiser trocar o broker
+    active: rabbit # change to kafka
   cloud:
     stream:
       function:
-        definition: processAnalysis # Sua função Java
+        definition: processAnalysis

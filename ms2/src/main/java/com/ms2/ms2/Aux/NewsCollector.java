@@ -24,103 +24,64 @@ import reactor.core.publisher.Mono;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import org.springframework.web.reactive.function.client.WebClient;
+
 
 @Service
 public class NewsCollector {
 
-    private String API_KEY = "";
+    private final WebClient webClient;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    public NewsCollector() {
-        this.API_KEY = API_KEY; 
+    //@Value("${alphavantage.api.key:NOT_DEFINED}")
+    private String apiKey = "P4V6CEV6271X11P3";
+
+    public NewsCollector(WebClient.Builder webClientBuilder, ObjectMapper objectMapper) {
+        this.webClient = webClientBuilder.baseUrl("https://www.alphavantage.co").build();
+        this.objectMapper = objectMapper;
     }
 
-    public String buildApiUrl(String symbol) {
-        return "https://www.alphavantage.co/query?function=NEWS_SENTIMENT" +
-               "&tickers=" + symbol +
-               "&apikey=" + API_KEY;
+    public Mono<String> getNewsSummary(String symbol) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/query")
+                        .queryParam("function", "NEWS_SENTIMENT")
+                        .queryParam("tickers", symbol)
+                        .queryParam("apikey", apiKey)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(this::parseAndFormatNews) 
+                .onErrorResume(e -> {
+                    System.err.println("Erro ao buscar notícias: " + e.getMessage());
+                    return Mono.just("Não foi possível coletar notícias para " + symbol);
+                });
     }
 
-    public String fetchNewsData(String symbol) {
-        if (API_KEY.equals("SUA_CHAVE_AQUI")) {
-            System.err.println("ERRO: Por favor, substitua 'SUA_CHAVE_AQUI' pela sua chave da API da Alpha Vantage.");
-            return null;
-        }
-
-
-
-        String url = buildApiUrl(symbol);
-
+    private String parseAndFormatNews(String jsonBody) {
         try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-            
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
-            if (response.statusCode() != 200) {
-                System.err.println("Falha na requisição à API: " + response.statusCode());
-                System.err.println("Corpo da resposta: " + response.body());
-                return null;
+            JsonNode root = objectMapper.readTree(jsonBody);
+            JsonNode feed = root.path("feed");
+
+            if (feed.isMissingNode() || feed.isEmpty()) {
+                return "Nenhuma notícia relevante encontrada.";
             }
 
-            return response.body();
+            StringBuilder sb = new StringBuilder();
+            sb.append("--- Notícias Recentes para ").append(" ---");
+
+            int limit = Math.min(5, feed.size());
+            for (int i = 0; i < limit; i++) {
+                JsonNode article = feed.get(i);
+                sb.append("\n\nNotícia ").append(i + 1).append(":");
+                sb.append("\n  Título: ").append(article.path("title").asText());
+                sb.append("\n  Resumo: ").append(article.path("summary").asText());
+                sb.append("\n  Sentimento: ").append(article.path("overall_sentiment_label").asText());
+            }
+            return sb.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return "Erro ao processar JSON de notícias: " + e.getMessage();
         }
     }
-
-    public String processNewsData(String stockSymbol){
-        String jsonData = fetchNewsData(stockSymbol);
-        String jsonFinal = parseAndPrintNews(jsonData);
-        return jsonFinal;
-    }
-
-
-    public String parseAndPrintNews(String jsonData) {
-        if (jsonData == null || jsonData.isEmpty()) {
-            System.out.println("Nenhum dado para processar.");
-            return null;
-        }
-
-        Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(jsonData, JsonObject.class);
-
-
-        JsonArray feed = jsonObject.getAsJsonArray("feed");
-        if (feed == null) {
-            System.out.println("Nenhuma notícia encontrada no feed da API.");
-            System.out.println("Resposta completa: " + jsonData);
-            return null;
-        }
-
-        System.out.println("--- Notícias Encontradas para AAPL ---");
-        
-
-        StringBuilder newsBuilder = new StringBuilder();
-        int newsToDisplay = Math.min(5, feed.size());
-        for (int i = 0; i < newsToDisplay; i++) {
-            JsonObject newsArticle = feed.get(i).getAsJsonObject();
-
-            String title = newsArticle.get("title").getAsString();
-            String summary = newsArticle.get("summary").getAsString();
-            String sentimentLabel = newsArticle.get("overall_sentiment_label").getAsString();
-
-            newsBuilder.append("\nNotícia ").append(i + 1).append(":")
-                       .append("\n  Título: ").append(title)
-                       .append("\n  Resumo: ").append(summary)
-                       .append("\n  Sentimento: ").append(sentimentLabel)
-                       .append("\n");
-        }
-        return newsBuilder.toString();
-    }
-
-
 }
