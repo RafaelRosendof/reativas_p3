@@ -3,8 +3,8 @@ spring:
     stream:
       function:
         definition: processRedis
-      #default-binder: kafka
-      default-binder: rabbit
+      default-binder: kafka
+      #default-binder: rabbit
       bindings:
         processRedis-in-0:
           destination: ms2-redis-requests

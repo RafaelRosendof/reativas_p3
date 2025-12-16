@@ -1,8 +1,8 @@
 spring:
   cloud:
     stream:
-      #default-binder: kafka
-      default-binder: rabbit
+      default-binder: kafka
+      #default-binder: rabbit
       
       function:
         definition: onStockResponse;onRedisResponse
